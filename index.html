@@ -382,8 +382,7 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     telefone:        "(85) 98887-3106",
     email:           "",
     banco:           "INBURSA",
-    tipoOperacao:    "Crédito Consignado - Refinanciamento",
-    valorLiberado:   "R$ 2.038,19",
+    tipoOperacao:    "Crédito Consignado - Portabilidade",
     parcelas:        "30x",
     valorParcela:    "R$ 998,33",
     data:            "24/08/2026"
@@ -394,7 +393,7 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
   function gerarTextoDocumento(d){
     return `Pelo presente instrumento particular, ${d.nome}, portador(a) do CPF nº ${d.cpf}, doravante denominado(a) CONTRATANTE,doravante denominada CONTRATADA, resolvem firmar o presente documento referente ao contrato nº ${d.contrato}, mediante as condições a seguir descritas.
  
-A operação financeira contratada refere-se a ${d.tipoOperacao}, junto à instituição ${d.banco}, no valor líquido liberado de ${d.valorLiberado}, a ser pago em ${d.parcelas} parcelas mensais e sucessivas no valor de ${d.valorParcela} cada, com vencimentos conforme cronograma acordado entre as partes.
+A operação financeira contratada refere-se a ${d.tipoOperacao}, junto à instituição ${d.banco},parcelas mensais e sucessivas no valor de ${d.valorParcela} cada, com vencimentos conforme cronograma acordado entre as partes.
  
 Para fins de comunicação e formalização, ficam registrados os seguintes dados de contato do CONTRATANTE: telefone ${d.telefone} e e-mail ${d.email}.
  
