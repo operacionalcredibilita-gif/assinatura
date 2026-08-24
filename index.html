@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>CONTRATO PORTABILIDADE | Assinatura de Documento</title>
+<meta name="description" content="CONTRATO DE PORTABILIDADE — plataforma de assinatura digital de documentos financeiros.">
+<link rel="icon" type="image/png" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png">
+
+<link rel="preconnect" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png">
+<link rel="preconnect" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" crossorigin>
+
+<link href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" rel="stylesheet">
+<style>
+  /* ============================================================
+     FINANTO — Design tokens
+     Paleta: tinta (preto), painel, dourado envelhecido, marfim
+     ============================================================ */
+  :root{
+    --ink:            #0a0a0c;
+    --ink-soft:       #0e0e11;
+    --panel:          #15151a;
+    --panel-raised:   #191920;
+    --hairline:       rgba(198,161,91,0.16);
+    --hairline-strong:rgba(91, 198, 114, 0.42);
+    --gold:           #5bc660;
+    --gold-bright:    #5bc660;
+    --gold-deep:      #5bc660;
+    --ivory:          #f3f0e8;
+    --muted:          #9a98a3;
+    --muted-dim:      #6a6870;
+    --radius-lg:      16px;
+    --radius-md:      12px;
+    --radius-sm:      8px;
+    --ease:           cubic-bezier(.4,0,.2,1);
+  }
+ 
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+ 
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(198,161,91,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 110% 10%, rgba(198,161,91,0.06), transparent 55%),
+      linear-gradient(180deg, var(--ink) 0%, var(--ink-soft) 100%);
+    background-attachment:fixed;
+    color:var(--ivory);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+ 
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+ 
+  .wrap{ max-width:860px; margin:0 auto; padding:0 24px; }
+ 
+  /* ---------------- Header ---------------- */
+  header.site-header{
+    border-bottom:1px solid var(--hairline);
+    padding:26px 0;
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand svg{ width:34px; height:34px; flex-shrink:0; }
+  .brand-text{
+    font-family:'Playfair Display',Georgia,serif;
+    font-weight:800;
+    font-size:24px;
+    letter-spacing:2.5px;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .status-badge{
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--hairline-strong);
+    background:rgba(95, 198, 91, 0.05);
+    padding:9px 16px;
+    border-radius:40px;
+    font-size:11px; font-weight:600; letter-spacing:1.3px; text-transform:uppercase;
+    color:var(--muted);
+    transition:all .4s var(--ease);
+  }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--muted-dim);
+    transition:all .4s var(--ease);
+  }
+  .status-badge.is-signed{
+    border-color:var(--hairline-strong);
+    background:rgba(91, 198, 105, 0.1);
+    color:var(--gold-bright);
+    box-shadow:0 0 22px rgba(91, 198, 114, 0.18);
+  }
+  .status-badge.is-signed .status-dot{
+    background:var(--gold);
+    box-shadow:0 0 0 0 rgba(91, 198, 96, 0.6);
+    animation:dotPulse 2.2s ease-out infinite;
+  }
+  @keyframes dotPulse{
+    0%{ box-shadow:0 0 0 0 rgba(101, 226, 122, 0.5); }
+    70%{ box-shadow:0 0 0 8px rgba(198,161,91,0); }
+    100%{ box-shadow:0 0 0 0 rgba(198,161,91,0); }
+  }
+ 
+  /* ---------------- Hero ---------------- */
+  .hero{
+    text-align:center;
+    padding:56px 0 8px;
+  }
+  .hero h1{
+    font-family:'Playfair Display',Georgia,serif;
+    font-weight:700;
+    font-size:clamp(30px,5vw,44px);
+    margin:0 0 16px;
+    color:var(--ivory);
+    letter-spacing:0.3px;
+  }
+  .hero-rule{
+    width:56px; height:2px; margin:0 auto 20px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .hero p{
+    margin:0 auto; max-width:460px;
+    color:var(--muted);
+    font-size:15.5px; line-height:1.6;
+  }
+ 
+  /* ---------------- Cards ---------------- */
+  main{ padding-bottom:40px; }
+ 
+  .card{
+    position:relative;
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-radius:var(--radius-lg);
+    padding:32px;
+    margin-top:26px;
+    box-shadow:0 14px 40px rgba(0,0,0,0.35);
+    overflow:hidden;
+    opacity:0; transform:translateY(14px);
+    animation:cardIn .6s var(--ease) forwards;
+  }
+  .card::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:0.65;
+  }
+  main .card:nth-of-type(1){ animation-delay:.05s; }
+  main .card:nth-of-type(2){ animation-delay:.15s; }
+  main .card:nth-of-type(3){ animation-delay:.25s; }
+  @keyframes cardIn{ to{ opacity:1; transform:translateY(0); } }
+ 
+  .card-eyebrow{
+    display:block;
+    font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .card h2{
+    font-family:'Playfair Display',Georgia,serif;
+    font-weight:700;
+    font-size:21px;
+    margin:0 0 26px;
+    color:var(--ivory);
+  }
+ 
+  /* ---------------- Info grid (dados do cliente) ---------------- */
+  .info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+    gap:24px 30px;
+  }
+  .info-item{
+    display:flex; flex-direction:column; gap:6px;
+    padding-bottom:14px;
+    border-bottom:1px dashed rgba(243,240,232,0.09);
+  }
+  .info-label{
+    font-size:10.5px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase;
+    color:var(--muted-dim);
+  }
+  .info-value{
+    font-size:15.5px; font-weight:500;
+    color:var(--ivory);
+  }
+ 
+  /* ---------------- Documento ---------------- */
+  .document-text{
+    background:rgba(0,0,0,0.28);
+    border:1px solid rgba(243,240,232,0.07);
+    border-radius:var(--radius-md);
+    padding:26px;
+    max-height:320px;
+    overflow-y:auto;
+    color:#c9c7cf;
+    font-size:14.5px;
+    line-height:1.85;
+    white-space:pre-line;
+  }
+  .document-text::-webkit-scrollbar{ width:8px; }
+  .document-text::-webkit-scrollbar-track{ background:transparent; }
+  .document-text::-webkit-scrollbar-thumb{ background:var(--gold-deep); border-radius:8px; }
+ 
+  .agree-wrap{
+    display:flex; align-items:flex-start; gap:13px;
+    margin-top:22px;
+    padding:18px 20px;
+    background:rgba(198,161,91,0.05);
+    border:1px solid var(--hairline);
+    border-radius:var(--radius-md);
+    cursor:pointer;
+    transition:border-color .3s var(--ease), background .3s var(--ease);
+  }
+  .agree-wrap:hover{ border-color:var(--hairline-strong); }
+  .agree-wrap input{
+    width:19px; height:19px; margin-top:2px; flex-shrink:0;
+    accent-color:var(--gold);
+    cursor:pointer;
+  }
+  .agree-wrap span{
+    font-size:14px; line-height:1.55; color:#d6d4dc;
+  }
+ 
+  /* ---------------- Assinatura (CTA) ---------------- */
+  .sign-section{ text-align:center; padding:44px 0 8px; }
+ 
+  .sign-button{
+    appearance:none; border:none; cursor:pointer;
+    padding:19px 54px;
+    font-family:'Inter',sans-serif;
+    font-size:15px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase;
+    border-radius:50px;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+    color:#0a0a0c;
+    box-shadow:0 12px 32px rgba(198,161,91,0.22);
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+    border:2px solid transparent;
+  }
+  .sign-button:not(:disabled):not(.is-signed):hover{
+    transform:translateY(-3px);
+    box-shadow:0 18px 42px rgba(198,161,91,0.38);
+  }
+  .sign-button:not(:disabled):not(.is-signed):active{ transform:translateY(-1px); }
+  .sign-button:disabled{
+   background:#232228; color:#5c5a63;
+box-shadow:none; cursor:not-allowed; border-color:transparent;  }
+  .sign-button.is-signed{
+    background:transparent;
+    border:2px solid var(--gold);
+    color:var(--gold-bright);
+    box-shadow:0 0 26px rgba(198,161,91,0.22);
+    cursor:default;
+  }
+ 
+  .sign-hint{
+    margin-top:14px; font-size:12.5px; color:var(--muted-dim);
+    opacity:1; transition:opacity .3s var(--ease);
+  }
+  .sign-hint.is-hidden{ opacity:0; height:0; overflow:hidden; margin-top:0; }
+ 
+  .success-message{
+    display:flex; align-items:center; justify-content:center; gap:9px;
+    margin-top:22px;
+    font-size:15px; font-weight:600;
+    color:var(--gold-bright);
+    opacity:0; transform:translateY(8px);
+    transition:all .5s var(--ease);
+  }
+  .success-message.is-visible{ opacity:1; transform:translateY(0); }
+ 
+  /* ---------------- Selo de assinatura (elemento assinatura visual) ---------------- */
+  .seal-wrap{
+    display:flex; justify-content:center; margin:26px 0 6px;
+    opacity:0; transform:scale(0.6) rotate(-18deg);
+    transition:opacity .55s var(--ease), transform .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .seal-wrap.is-visible{ opacity:1; transform:scale(1) rotate(-8deg); }
+  .seal{ width:108px; height:108px; }
+ 
+  /* ---------------- Dados da assinatura ---------------- */
+  .signature-data-card{ display:none; }
+  .signature-data-card.is-visible{ display:block; }
+  .status-pill{
+    display:inline-block;
+    padding:5px 14px;
+    background:rgba(198,161,91,0.12);
+    border:1px solid var(--gold);
+    color:var(--gold-bright);
+    border-radius:30px;
+    font-size:11.5px; font-weight:700; letter-spacing:1.2px;
+  }
+ 
+  /* ---------------- Footer ---------------- */
+  footer{
+    text-align:center;
+    padding:36px 0 46px;
+    color:var(--muted-dim);
+  }
+  footer .notice{
+    font-size:12.5px; line-height:1.7; max-width:480px; margin:0 auto 10px;
+  }
+  footer .brand-line{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.7; }
+ 
+  /* ---------------- Modal de confirmação ---------------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:999;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(4,4,6,0.72);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    padding:20px;
+  }
+  .modal-overlay.is-hidden{ display:none; }
+  .modal-card{
+    width:100%; max-width:400px;
+    background:var(--panel-raised);
+    border:1px solid var(--hairline-strong);
+    border-radius:var(--radius-lg);
+    padding:34px 32px;
+    text-align:center;
+    box-shadow:0 24px 70px rgba(0,0,0,0.55);
+    animation:modalIn .28s var(--ease);
+  }
+  @keyframes modalIn{ from{ opacity:0; transform:scale(0.94) translateY(8px);} to{ opacity:1; transform:scale(1) translateY(0);} }
+  .modal-card h3{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:21px; margin:0 0 12px; color:var(--ivory);
+  }
+  .modal-card p{
+    font-size:14.5px; line-height:1.6; color:var(--muted); margin:0 0 28px;
+  }
+  .modal-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    appearance:none; cursor:pointer; border-radius:50px;
+    padding:13px 26px; font-size:12.5px; font-weight:700; letter-spacing:1.1px; text-transform:uppercase;
+    transition:all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .btn-outline{
+    background:transparent; border:1px solid rgba(243,240,232,0.22); color:var(--muted);
+  }
+  .btn-outline:hover{ border-color:var(--ivory); color:var(--ivory); }
+  .btn-gold{
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold)); border:none; color:#0a0a0c;
+  }
+  .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(198,161,91,0.35); }
+ 
+  .hidden{ display:none !important; }
+ 
+  /* ---------------- Responsivo ---------------- */
+  @media (max-width:600px){
+    .wrap{ padding:0 18px; }
+    header.site-header{ padding:20px 0; }
+    .header-inner{ flex-direction:column; align-items:flex-start; gap:14px; }
+    .status-badge{ font-size:10px; }
+    .hero{ padding:40px 0 4px; }
+    .card{ padding:24px 20px; }
+    .info-grid{ gap:18px 22px; }
+    .sign-button{ width:100%; padding:19px 20px; }
+    .modal-actions{ flex-direction:column; }
+    .btn{ width:100%; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- ================================================================
+     DADOS DO CLIENTE — EDITE AQUI
+     Altere os valores abaixo para o cliente desejado. A página inteira
+     (informações, texto do contrato e dados da assinatura) é atualizada
+     automaticamente a partir deste objeto.
+     ================================================================ -->
+<script>
+  const DADOS_CLIENTE = {
+    nome:            "GENESIO LUIZ BRITO DE SA LEITAO",
+    cpf:             "328.469.164-20",
+    contrato:        "2024411221036392",
+    telefone:        "(85) 98887-3106",
+    email:           "",
+    banco:           "INBURSA",
+    tipoOperacao:    "Crédito Consignado - Refinanciamento",
+    valorLiberado:   "R$ 2.038,19",
+    parcelas:        "30x",
+    valorParcela:    "R$ 998,33",
+    data:            "24/08/2026"
+  };
+ 
+  // Texto do contrato/documento — editável. Os trechos entre { } são
+  // preenchidos automaticamente com os dados do cliente acima.
+  function gerarTextoDocumento(d){
+    return `Pelo presente instrumento particular, ${d.nome}, portador(a) do CPF nº ${d.cpf}, doravante denominado(a) CONTRATANTE,doravante denominada CONTRATADA, resolvem firmar o presente documento referente ao contrato nº ${d.contrato}, mediante as condições a seguir descritas.
+ 
+A operação financeira contratada refere-se a ${d.tipoOperacao}, junto à instituição ${d.banco}, no valor líquido liberado de ${d.valorLiberado}, a ser pago em ${d.parcelas} parcelas mensais e sucessivas no valor de ${d.valorParcela} cada, com vencimentos conforme cronograma acordado entre as partes.
+ 
+Para fins de comunicação e formalização, ficam registrados os seguintes dados de contato do CONTRATANTE: telefone ${d.telefone} e e-mail ${d.email}.
+ 
+O CONTRATANTE declara, para todos os efeitos legais, que teve acesso prévio a todas as informações, taxas, valores e condições da presente operação, tendo tido oportunidade de esclarecer eventuais dúvidas antes da assinatura deste documento.
+ 
+A assinatura eletrônica aposta neste documento possui validade entre as partes e tem o mesmo efeito de uma assinatura manuscrita para fins de comprovação de aceite e concordância com os termos aqui descritos.
+ 
+Documento gerado em ${d.data}.`;
+  }
+</script>
+ 
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" xmlns="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" aria-hidden="true">
+        <path d="M50 10 L86 30 V70 L50 90 L14 70 V30 Z" fill="none" stroke="#c6a15b" stroke-width="4"/>
+        <path d="M50 30 L50 70 M38 42 H62 M40 58 H58" stroke="#c6a15b" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">CONTRATO</span>
+    </div>
+    <div class="status-badge" id="statusBadge">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">STATUS: PENDENTE DE ASSINATURA</span>
+    </div>
+  </div>
+</header>
+ 
+<main class="wrap">
+ 
+  <section class="hero">
+    <h1>Assinatura de Documento</h1>
+    <div class="hero-rule"></div>
+    <p>Confira suas informações e assine o documento para confirmar.</p>
+  </section>
+ 
+  <!-- ---------- Dados do cliente ---------- -->
+  <section class="card">
+    <span class="card-eyebrow">Cliente</span>
+    <h2>Dados do Cliente</h2>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">Nome completo</span><span class="info-value" id="infoNome"></span></div>
+      <div class="info-item"><span class="info-label">CPF</span><span class="info-value" id="infoCpf"></span></div>
+      <div class="info-item"><span class="info-label">Número do contrato</span><span class="info-value" id="infoContrato"></span></div>
+      <div class="info-item"><span class="info-label">Telefone</span><span class="info-value" id="infoTelefone"></span></div>
+      <div class="info-item"><span class="info-label">E-mail</span><span class="info-value" id="infoEmail"></span></div>
+      <div class="info-item"><span class="info-label">Banco</span><span class="info-value" id="infoBanco"></span></div>
+      <div class="info-item"><span class="info-label">Tipo de operação</span><span class="info-value" id="infoTipoOperacao"></span></div>
+      <div class="info-item"><span class="info-label">Valor liberado</span><span class="info-value" id="infoValorLiberado"></span></div>
+      <div class="info-item"><span class="info-label">Quantidade de parcelas</span><span class="info-value" id="infoParcelas"></span></div>
+      <div class="info-item"><span class="info-label">Valor da parcela</span><span class="info-value" id="infoValorParcela"></span></div>
+      <div class="info-item"><span class="info-label">Data</span><span class="info-value" id="infoData"></span></div>
+    </div>
+  </section>
+ 
+  <!-- ---------- Documento ---------- -->
+  <section class="card">
+    <span class="card-eyebrow">Contrato</span>
+    <h2>Documento</h2>
+    <div class="document-text" id="documentText"></div>
+ 
+    <label class="agree-wrap" for="agreeCheckbox">
+      <input type="checkbox" id="agreeCheckbox">
+      <span>Declaro que li e estou de acordo com as informações e condições apresentadas neste documento.</span>
+    </label>
+  </section>
+ 
+  <!-- ---------- Assinatura ---------- -->
+  <section class="sign-section">
+    <button id="signButton" class="sign-button" disabled title="Marque a declaração acima para habilitar a assinatura">ASSINAR DOCUMENTO</button>
+    <div class="sign-hint" id="signHint">Marque a caixa de declaração acima para habilitar a assinatura.</div>
+ 
+    <div class="success-message" id="successMessage">
+      <span>✓</span><span>Documento assinado com sucesso!</span>
+    </div>
+ 
+    <div class="seal-wrap" id="sealWrap">
+      <svg class="seal" viewBox="0 0 120 120" xmlns="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" aria-hidden="true">
+        <circle cx="60" cy="60" r="54" fill="none" stroke="#c6a15b" stroke-width="2"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#c6a15b" stroke-width="1.4" stroke-dasharray="2 4"/>
+        <path id="sealTextPath" d="M 60,14 A 46,46 0 1 1 59.9,14" fill="none"/>
+        <text font-family="Inter, sans-serif" font-size="8.4" font-weight="700" letter-spacing="2.5" fill="#e8cd8a">
+          <textPath href="#sealTextPath" startOffset="2%"> • DOCUMENTO ASSINADO •  •</textPath>
+        </text>
+        <path d="M42 61 L54 73 L79 46" fill="none" stroke="#e8cd8a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+ 
+  <!-- ---------- Dados da assinatura ---------- -->
+  <section class="card signature-data-card" id="signatureDataCard">
+    <span class="card-eyebrow">Comprovante</span>
+    <h2>Dados da Assinatura</h2>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">Nome</span><span class="info-value" id="sigNome"></span></div>
+      <div class="info-item"><span class="info-label">CPF</span><span class="info-value" id="sigCpf"></span></div>
+      <div class="info-item"><span class="info-label">Número do contrato</span><span class="info-value" id="sigContrato"></span></div>
+      <div class="info-item"><span class="info-label">Data da assinatura</span><span class="info-value" id="sigData"></span></div>
+      <div class="info-item"><span class="info-label">Horário da assinatura</span><span class="info-value" id="sigHora"></span></div>
+      <div class="info-item"><span class="info-label">Status</span><span class="status-pill">ASSINADO</span></div>
+    </div>
+  </section>
+ 
+</main>
+ 
+<footer>
+  <div class="wrap">
+    <p class="notice">Esta assinatura representa a confirmação eletrônica das informações apresentadas.</p>
+    <p class="brand-line"></p>
+  </div>
+</footer>
+ 
+<!-- ---------- Modal de confirmação ---------- -->
+<div class="modal-overlay is-hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <h3 id="modalTitle">Confirmar Assinatura</h3>
+    <p>Você confirma que deseja assinar este documento?</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="cancelBtn">CANCELAR</button>
+      <button class="btn btn-gold" id="confirmBtn">CONFIRMAR ASSINATURA</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+  // ============================================================
+  // FINANTO — Lógica da aplicação
+  // ============================================================
+  const STORAGE_KEY = 'finanto_assinatura';
+ 
+  const els = {
+    statusBadge: document.getElementById('statusBadge'),
+    statusDot: document.getElementById('statusDot'),
+    statusText: document.getElementById('statusText'),
+    documentText: document.getElementById('documentText'),
+    agreeCheckbox: document.getElementById('agreeCheckbox'),
+    signButton: document.getElementById('signButton'),
+    signHint: document.getElementById('signHint'),
+    successMessage: document.getElementById('successMessage'),
+    sealWrap: document.getElementById('sealWrap'),
+    signatureDataCard: document.getElementById('signatureDataCard'),
+    modalOverlay: document.getElementById('modalOverlay'),
+    cancelBtn: document.getElementById('cancelBtn'),
+    confirmBtn: document.getElementById('confirmBtn'),
+  };
+ 
+  // ---------- Preenche a página com DADOS_CLIENTE ----------
+  function preencherDadosCliente(){
+    document.getElementById('infoNome').textContent = DADOS_CLIENTE.nome;
+    document.getElementById('infoCpf').textContent = DADOS_CLIENTE.cpf;
+    document.getElementById('infoContrato').textContent = DADOS_CLIENTE.contrato;
+    document.getElementById('infoTelefone').textContent = DADOS_CLIENTE.telefone;
+    document.getElementById('infoEmail').textContent = DADOS_CLIENTE.email;
+    document.getElementById('infoBanco').textContent = DADOS_CLIENTE.banco;
+    document.getElementById('infoTipoOperacao').textContent = DADOS_CLIENTE.tipoOperacao;
+    document.getElementById('infoValorLiberado').textContent = DADOS_CLIENTE.valorLiberado;
+    document.getElementById('infoParcelas').textContent = DADOS_CLIENTE.parcelas;
+    document.getElementById('infoValorParcela').textContent = DADOS_CLIENTE.valorParcela;
+    document.getElementById('infoData').textContent = DADOS_CLIENTE.data;
+    els.documentText.textContent = gerarTextoDocumento(DADOS_CLIENTE);
+  }
+ 
+  // ---------- Aplica o estado "assinado" na tela ----------
+  function aplicarEstadoAssinado(dadosAssinatura){
+    els.signButton.textContent = '✓ DOCUMENTO ASSINADO';
+    els.signButton.disabled = true;
+    els.signButton.classList.add('is-signed');
+    els.signButton.title = '';
+ 
+    els.signHint.classList.add('is-hidden');
+    els.agreeCheckbox.checked = true;
+    els.agreeCheckbox.disabled = true;
+ 
+    els.statusText.textContent = 'STATUS: ASSINADO';
+    els.statusBadge.classList.add('is-signed');
+ 
+    els.successMessage.classList.add('is-visible');
+    els.sealWrap.classList.add('is-visible');
+ 
+    document.getElementById('sigNome').textContent = dadosAssinatura.nome;
+    document.getElementById('sigCpf').textContent = dadosAssinatura.cpf;
+    document.getElementById('sigContrato').textContent = dadosAssinatura.contrato;
+    document.getElementById('sigData').textContent = dadosAssinatura.data;
+    document.getElementById('sigHora').textContent = dadosAssinatura.hora;
+    els.signatureDataCard.classList.add('is-visible');
+  }
+ 
+  // ---------- Verifica se já existe assinatura salva ----------
+  function verificarAssinaturaExistente(){
+    const salvo = localStorage.getItem(STORAGE_KEY);
+    if(!salvo) return;
+    try{
+      const dados = JSON.parse(salvo);
+      if(dados && dados.status === 'ASSINADO'){
+        aplicarEstadoAssinado(dados);
+      }
+    }catch(e){
+      console.warn('Não foi possível ler a assinatura salva:', e);
+    }
+  }
+ 
+  // ---------- Habilita o botão de assinatura conforme a declaração ----------
+  els.agreeCheckbox.addEventListener('change', () => {
+    const jaAssinado = els.signButton.classList.contains('is-signed');
+    els.signButton.disabled = !els.agreeCheckbox.checked || jaAssinado;
+    if(els.agreeCheckbox.checked){
+      els.signHint.classList.add('is-hidden');
+    }else if(!jaAssinado){
+      els.signHint.classList.remove('is-hidden');
+    }
+  });
+ 
+  // ---------- Abre o modal de confirmação ----------
+  els.signButton.addEventListener('click', () => {
+    if(els.signButton.disabled || els.signButton.classList.contains('is-signed')) return;
+    els.modalOverlay.classList.remove('is-hidden');
+  });
+ 
+  function fecharModal(){
+    els.modalOverlay.classList.add('is-hidden');
+  }
+  els.cancelBtn.addEventListener('click', fecharModal);
+  els.modalOverlay.addEventListener('click', (e) => {
+    if(e.target === els.modalOverlay) fecharModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && !els.modalOverlay.classList.contains('is-hidden')) fecharModal();
+  });
+ 
+  // ---------- Confirma a assinatura ----------
+  els.confirmBtn.addEventListener('click', () => {
+    const agora = new Date();
+    const dadosAssinatura = {
+      nome: DADOS_CLIENTE.nome,
+      cpf: DADOS_CLIENTE.cpf,
+      contrato: DADOS_CLIENTE.contrato,
+      data: agora.toLocaleDateString('pt-BR'),
+      hora: agora.toLocaleTimeString('pt-BR'),
+      status: 'ASSINADO'
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosAssinatura));
+    fecharModal();
+    aplicarEstadoAssinado(dadosAssinatura);
+  });
+ 
+  // ---------- Inicialização ----------
+  preencherDadosCliente();
+  verificarAssinaturaExistente();
+ 
+  // Para testar novamente do zero, execute no console do navegador:
+  // localStorage.removeItem('finanto_assinatura'); location.reload();
+</script>
+ 
+</body>
+</html>
