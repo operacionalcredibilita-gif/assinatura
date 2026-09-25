@@ -3,18 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>CONTRATO PORTABILIDADE | Assinatura de Documento</title>
+<title id="pageTitleTag">CONTRATO PORTABILIDADE | Assinatura de Documento</title>
 <meta name="description" content="CONTRATO DE PORTABILIDADE — plataforma de assinatura digital de documentos financeiros.">
 <link rel="icon" type="image/png" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png">
-
-<link rel="preconnect" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png">
-<link rel="preconnect" href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" crossorigin>
-
-<link href="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" rel="stylesheet">
 <style>
   /* ============================================================
      FINANTO — Design tokens
-     Paleta: tinta (preto), painel, dourado envelhecido, marfim
+     Paleta: tinta (preto), painel, verde-dourado, marfim
      ============================================================ */
   :root{
     --ink:            #0a0a0c;
@@ -34,10 +29,10 @@
     --radius-sm:      8px;
     --ease:           cubic-bezier(.4,0,.2,1);
   }
- 
+
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
- 
+
   body{
     margin:0;
     font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -50,13 +45,13 @@
     min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
- 
+
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
   }
- 
+
   .wrap{ max-width:860px; margin:0 auto; padding:0 24px; }
- 
+
   /* ---------------- Header ---------------- */
   header.site-header{
     border-bottom:1px solid var(--hairline);
@@ -106,7 +101,7 @@
     70%{ box-shadow:0 0 0 8px rgba(198,161,91,0); }
     100%{ box-shadow:0 0 0 0 rgba(198,161,91,0); }
   }
- 
+
   /* ---------------- Hero ---------------- */
   .hero{
     text-align:center;
@@ -129,10 +124,10 @@
     color:var(--muted);
     font-size:15.5px; line-height:1.6;
   }
- 
+
   /* ---------------- Cards ---------------- */
   main{ padding-bottom:40px; }
- 
+
   .card{
     position:relative;
     background:var(--panel);
@@ -154,7 +149,7 @@
   main .card:nth-of-type(2){ animation-delay:.15s; }
   main .card:nth-of-type(3){ animation-delay:.25s; }
   @keyframes cardIn{ to{ opacity:1; transform:translateY(0); } }
- 
+
   .card-eyebrow{
     display:block;
     font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
@@ -168,7 +163,7 @@
     margin:0 0 26px;
     color:var(--ivory);
   }
- 
+
   /* ---------------- Info grid (dados do cliente) ---------------- */
   .info-grid{
     display:grid;
@@ -188,7 +183,7 @@
     font-size:15.5px; font-weight:500;
     color:var(--ivory);
   }
- 
+
   /* ---------------- Documento ---------------- */
   .document-text{
     background:rgba(0,0,0,0.28);
@@ -205,7 +200,7 @@
   .document-text::-webkit-scrollbar{ width:8px; }
   .document-text::-webkit-scrollbar-track{ background:transparent; }
   .document-text::-webkit-scrollbar-thumb{ background:var(--gold-deep); border-radius:8px; }
- 
+
   .agree-wrap{
     display:flex; align-items:flex-start; gap:13px;
     margin-top:22px;
@@ -225,10 +220,10 @@
   .agree-wrap span{
     font-size:14px; line-height:1.55; color:#d6d4dc;
   }
- 
+
   /* ---------------- Assinatura (CTA) ---------------- */
   .sign-section{ text-align:center; padding:44px 0 8px; }
- 
+
   .sign-button{
     appearance:none; border:none; cursor:pointer;
     padding:19px 54px;
@@ -256,13 +251,13 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     box-shadow:0 0 26px rgba(198,161,91,0.22);
     cursor:default;
   }
- 
+
   .sign-hint{
     margin-top:14px; font-size:12.5px; color:var(--muted-dim);
     opacity:1; transition:opacity .3s var(--ease);
   }
   .sign-hint.is-hidden{ opacity:0; height:0; overflow:hidden; margin-top:0; }
- 
+
   .success-message{
     display:flex; align-items:center; justify-content:center; gap:9px;
     margin-top:22px;
@@ -272,8 +267,8 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     transition:all .5s var(--ease);
   }
   .success-message.is-visible{ opacity:1; transform:translateY(0); }
- 
-  /* ---------------- Selo de assinatura (elemento assinatura visual) ---------------- */
+
+  /* ---------------- Selo de assinatura ---------------- */
   .seal-wrap{
     display:flex; justify-content:center; margin:26px 0 6px;
     opacity:0; transform:scale(0.6) rotate(-18deg);
@@ -281,7 +276,7 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
   }
   .seal-wrap.is-visible{ opacity:1; transform:scale(1) rotate(-8deg); }
   .seal{ width:108px; height:108px; }
- 
+
   /* ---------------- Dados da assinatura ---------------- */
   .signature-data-card{ display:none; }
   .signature-data-card.is-visible{ display:block; }
@@ -294,7 +289,7 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     border-radius:30px;
     font-size:11.5px; font-weight:700; letter-spacing:1.2px;
   }
- 
+
   /* ---------------- Footer ---------------- */
   footer{
     text-align:center;
@@ -304,8 +299,8 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
   footer .notice{
     font-size:12.5px; line-height:1.7; max-width:480px; margin:0 auto 10px;
   }
-  footer .brand-line{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.7; }
- 
+  footer .brand-line{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.7; min-height:14px; }
+
   /* ---------------- Modal de confirmação ---------------- */
   .modal-overlay{
     position:fixed; inset:0; z-index:999;
@@ -348,9 +343,55 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     background:linear-gradient(135deg, var(--gold-bright), var(--gold)); border:none; color:#0a0a0c;
   }
   .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(198,161,91,0.35); }
- 
+  .btn-sm{ padding:10px 20px; font-size:11px; }
+
   .hidden{ display:none !important; }
- 
+
+  /* ---------------- Modo de edição ---------------- */
+  .edit-fab{
+    position:fixed; right:20px; bottom:20px; z-index:997;
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 22px; border:none; border-radius:50px; cursor:pointer;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.6px;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color:#0a0a0c;
+    box-shadow:0 12px 30px rgba(0,0,0,0.45);
+    transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+  }
+  .edit-fab:hover{ transform:translateY(-3px); box-shadow:0 16px 38px rgba(0,0,0,0.55); }
+  .edit-fab.is-hidden{ display:none; }
+
+  .edit-toolbar{
+    position:fixed; left:0; right:0; bottom:0; z-index:998;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding:14px 22px;
+    background:var(--panel-raised);
+    border-top:1px solid var(--hairline-strong);
+    box-shadow:0 -10px 30px rgba(0,0,0,0.45);
+    transform:translateY(130%);
+    transition:transform .3s var(--ease);
+  }
+  .edit-toolbar.is-visible{ transform:translateY(0); }
+  .edit-toolbar-info{ font-size:12px; color:var(--muted); max-width:340px; line-height:1.5; }
+  .edit-toolbar-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .edit-title-field{ display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--muted); white-space:nowrap; }
+  .edit-title-field input{
+    background:rgba(0,0,0,0.3); border:1px solid var(--hairline); color:var(--ivory);
+    border-radius:8px; padding:8px 10px; font-size:13px; font-family:'Inter',sans-serif; min-width:180px;
+  }
+  .edit-title-field input:focus{ outline:none; border-color:var(--gold); }
+
+  body.is-editing{ padding-bottom:104px; }
+  body.is-editing [data-edit]{
+    outline:1px dashed var(--hairline-strong);
+    outline-offset:3px;
+    border-radius:4px;
+    cursor:text;
+  }
+  body.is-editing [data-edit]:hover{ background:rgba(198,161,91,0.08); }
+  body.is-editing [data-edit]:focus{ outline:2px solid var(--gold); background:rgba(198,161,91,0.12); }
+  body.is-editing [data-edit]:empty::before{ content:'Clique para editar'; opacity:.4; }
+
   /* ---------------- Responsivo ---------------- */
   @media (max-width:600px){
     .wrap{ padding:0 18px; }
@@ -363,56 +404,60 @@ box-shadow:none; cursor:not-allowed; border-color:transparent;  }
     .sign-button{ width:100%; padding:19px 20px; }
     .modal-actions{ flex-direction:column; }
     .btn{ width:100%; }
+    .edit-toolbar{ padding:12px 16px; justify-content:center; text-align:center; }
+    .edit-title-field input{ min-width:130px; }
+    .edit-fab{ right:14px; bottom:14px; padding:12px 18px; font-size:12px; }
   }
 </style>
 </head>
 <body>
- 
+
 <!-- ================================================================
-     DADOS DO CLIENTE — EDITE AQUI
-     Altere os valores abaixo para o cliente desejado. A página inteira
-     (informações, texto do contrato e dados da assinatura) é atualizada
-     automaticamente a partir deste objeto.
+     DADOS DO CLIENTE — valores padrão (usados na primeira vez que a
+     página abre, ou quando "Restaurar padrão" é usado no modo de
+     edição). Depois disso, tudo pode ser editado direto na página.
      ================================================================ -->
 <script>
   const DADOS_CLIENTE = {
-    nome:            "GENESIO LUIZ BRITO DE SA LEITAO",
-    cpf:             "328.469.164-20",
-    contrato:        "2024411221036392",
-    telefone:        "(85) 98887-3106",
-    email:           "",
-    banco:           "INBURSA",
-    tipoOperacao:    "Crédito Consignado - Portabilidade",
-    parcelas:        "30x",
-    valorParcela:    "R$ 998,33",
-    data:            "24/08/2026"
+    nome:          "ADEMIR SIERRA REVELLES",
+    cpf:           "00524766851",
+    contrato:      "1962364",
+    telefone:      "17997272845",
+    email:         "",
+    banco:         "FINANTO",
+    tipoOperacao:  "Crédito Consignado - Portabilidade",
+    valorOriginal: "R$ 1.266,34",
+    parcelas:      "91x",
+    valorParcela:  "R$ 956,12",
+    data:          "25/09/2026"
   };
- 
-  // Texto do contrato/documento — editável. Os trechos entre { } são
-  // preenchidos automaticamente com os dados do cliente acima.
+
+  // Texto padrão do contrato, gerado a partir dos dados acima.
+  // Depois de editado manualmente na página, o texto digitado passa
+  // a valer (o botão "Restaurar padrão" volta a gerar este texto).
   function gerarTextoDocumento(d){
-    return `Pelo presente instrumento particular, ${d.nome}, portador(a) do CPF nº ${d.cpf}, doravante denominado(a) CONTRATANTE,doravante denominada CONTRATADA, resolvem firmar o presente documento referente ao contrato nº ${d.contrato}, mediante as condições a seguir descritas.
- 
-A operação financeira contratada refere-se a ${d.tipoOperacao}, junto à instituição ${d.banco},parcelas mensais e sucessivas no valor de ${d.valorParcela} cada, com vencimentos conforme cronograma acordado entre as partes.
- 
-Para fins de comunicação e formalização, ficam registrados os seguintes dados de contato do CONTRATANTE: telefone ${d.telefone} e e-mail ${d.email}.
- 
+    return `Pelo presente instrumento particular, ${d.nome}, portador(a) do CPF nº ${d.cpf}, doravante denominado(a) CONTRATANTE, e ${d.banco}, doravante denominada CONTRATADA, resolvem firmar o presente documento referente ao contrato nº ${d.contrato}, mediante as condições a seguir descritas.
+
+A operação financeira contratada refere-se a ${d.tipoOperacao}, substituindo a parcela atual de ${d.valorOriginal} por ${d.parcelas} parcelas mensais e sucessivas no valor de ${d.valorParcela} cada, com vencimentos conforme cronograma acordado entre as partes.
+
+Para fins de comunicação e formalização, ficam registrados os seguintes dados de contato do CONTRATANTE: telefone ${d.telefone}${d.email ? ' e e-mail ' + d.email : ''}.
+
 O CONTRATANTE declara, para todos os efeitos legais, que teve acesso prévio a todas as informações, taxas, valores e condições da presente operação, tendo tido oportunidade de esclarecer eventuais dúvidas antes da assinatura deste documento.
- 
+
 A assinatura eletrônica aposta neste documento possui validade entre as partes e tem o mesmo efeito de uma assinatura manuscrita para fins de comprovação de aceite e concordância com os termos aqui descritos.
- 
+
 Documento gerado em ${d.data}.`;
   }
 </script>
- 
+
 <header class="site-header">
   <div class="wrap header-inner">
     <div class="brand">
-      <svg viewBox="0 0 100 100" xmlns="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" aria-hidden="true">
-        <path d="M50 10 L86 30 V70 L50 90 L14 70 V30 Z" fill="none" stroke="#c6a15b" stroke-width="4"/>
-        <path d="M50 30 L50 70 M38 42 H62 M40 58 H58" stroke="#c6a15b" stroke-width="4" stroke-linecap="round"/>
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50 10 L86 30 V70 L50 90 L14 70 V30 Z" fill="none" stroke="#5bc660" stroke-width="4"/>
+        <path d="M50 30 L50 70 M38 42 H62 M40 58 H58" stroke="#5bc660" stroke-width="4" stroke-linecap="round"/>
       </svg>
-      <span class="brand-text">CONTRATO</span>
+      <span class="brand-text" id="brandText" data-edit="brandText">CONTRATO</span>
     </div>
     <div class="status-badge" id="statusBadge">
       <span class="status-dot" id="statusDot"></span>
@@ -420,59 +465,59 @@ Documento gerado em ${d.data}.`;
     </div>
   </div>
 </header>
- 
+
 <main class="wrap">
- 
+
   <section class="hero">
-    <h1>Assinatura de Documento</h1>
+    <h1 id="heroTitle" data-edit="heroTitle">Assinatura de Documento</h1>
     <div class="hero-rule"></div>
-    <p>Confira suas informações e assine o documento para confirmar.</p>
+    <p id="heroSubtitle" data-edit="heroSubtitle">Confira suas informações e assine o documento para confirmar.</p>
   </section>
- 
+
   <!-- ---------- Dados do cliente ---------- -->
   <section class="card">
-    <span class="card-eyebrow">Cliente</span>
-    <h2>Dados do Cliente</h2>
+    <span class="card-eyebrow" data-edit="eyebrow1">Cliente</span>
+    <h2 data-edit="title1">Dados do Cliente</h2>
     <div class="info-grid">
-      <div class="info-item"><span class="info-label">Nome completo</span><span class="info-value" id="infoNome"></span></div>
-      <div class="info-item"><span class="info-label">CPF</span><span class="info-value" id="infoCpf"></span></div>
-      <div class="info-item"><span class="info-label">Número do contrato</span><span class="info-value" id="infoContrato"></span></div>
-      <div class="info-item"><span class="info-label">Telefone</span><span class="info-value" id="infoTelefone"></span></div>
-      <div class="info-item"><span class="info-label">E-mail</span><span class="info-value" id="infoEmail"></span></div>
-      <div class="info-item"><span class="info-label">Banco</span><span class="info-value" id="infoBanco"></span></div>
-      <div class="info-item"><span class="info-label">Tipo de operação</span><span class="info-value" id="infoTipoOperacao"></span></div>
-      <div class="info-item"><span class="info-label">Valor liberado</span><span class="info-value" id="infoValorLiberado"></span></div>
-      <div class="info-item"><span class="info-label">Quantidade de parcelas</span><span class="info-value" id="infoParcelas"></span></div>
-      <div class="info-item"><span class="info-label">Valor da parcela</span><span class="info-value" id="infoValorParcela"></span></div>
-      <div class="info-item"><span class="info-label">Data</span><span class="info-value" id="infoData"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblNome">Nome completo</span><span class="info-value" id="infoNome" data-edit="infoNome"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblCpf">CPF</span><span class="info-value" id="infoCpf" data-edit="infoCpf"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblContrato">Número do contrato</span><span class="info-value" id="infoContrato" data-edit="infoContrato"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblTelefone">Telefone</span><span class="info-value" id="infoTelefone" data-edit="infoTelefone"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblEmail">E-mail</span><span class="info-value" id="infoEmail" data-edit="infoEmail"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblBanco">Banco</span><span class="info-value" id="infoBanco" data-edit="infoBanco"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblTipoOperacao">Tipo de operação</span><span class="info-value" id="infoTipoOperacao" data-edit="infoTipoOperacao"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblValorOriginal">Parcela do contrato original</span><span class="info-value" id="infoValorOriginal" data-edit="infoValorOriginal"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblParcelas">Quantidade de parcelas</span><span class="info-value" id="infoParcelas" data-edit="infoParcelas"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblValorParcela">Valor da nova parcela</span><span class="info-value" id="infoValorParcela" data-edit="infoValorParcela"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblData">Data</span><span class="info-value" id="infoData" data-edit="infoData"></span></div>
     </div>
   </section>
- 
+
   <!-- ---------- Documento ---------- -->
   <section class="card">
-    <span class="card-eyebrow">Contrato</span>
-    <h2>Documento</h2>
-    <div class="document-text" id="documentText"></div>
- 
-    <label class="agree-wrap" for="agreeCheckbox">
+    <span class="card-eyebrow" data-edit="eyebrow2">Contrato</span>
+    <h2 data-edit="title2">Documento</h2>
+    <div class="document-text" id="documentText" data-edit="documentText"></div>
+
+    <div class="agree-wrap" id="agreeWrap">
       <input type="checkbox" id="agreeCheckbox">
-      <span>Declaro que li e estou de acordo com as informações e condições apresentadas neste documento.</span>
-    </label>
+      <span data-edit="agreeText">Declaro que li e estou de acordo com as informações e condições apresentadas neste documento.</span>
+    </div>
   </section>
- 
+
   <!-- ---------- Assinatura ---------- -->
   <section class="sign-section">
-    <button id="signButton" class="sign-button" disabled title="Marque a declaração acima para habilitar a assinatura">ASSINAR DOCUMENTO</button>
-    <div class="sign-hint" id="signHint">Marque a caixa de declaração acima para habilitar a assinatura.</div>
- 
+    <button id="signButton" class="sign-button" disabled title="Marque a declaração acima para habilitar a assinatura"><span data-edit="signButtonLabel">ASSINAR DOCUMENTO</span></button>
+    <div class="sign-hint" id="signHint"><span data-edit="signHintText">Marque a caixa de declaração acima para habilitar a assinatura.</span></div>
+
     <div class="success-message" id="successMessage">
-      <span>✓</span><span>Documento assinado com sucesso!</span>
+      <span>✓</span><span data-edit="successMessageText">Documento assinado com sucesso!</span>
     </div>
- 
+
     <div class="seal-wrap" id="sealWrap">
-      <svg class="seal" viewBox="0 0 120 120" xmlns="https://raichu-uploads.s3.amazonaws.com/logo_finanto_f7g8Fi.png" aria-hidden="true">
-        <circle cx="60" cy="60" r="54" fill="none" stroke="#c6a15b" stroke-width="2"/>
-        <circle cx="60" cy="60" r="46" fill="none" stroke="#c6a15b" stroke-width="1.4" stroke-dasharray="2 4"/>
+      <svg class="seal" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="60" cy="60" r="54" fill="none" stroke="#5bc660" stroke-width="2"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#5bc660" stroke-width="1.4" stroke-dasharray="2 4"/>
         <path id="sealTextPath" d="M 60,14 A 46,46 0 1 1 59.9,14" fill="none"/>
         <text font-family="Inter, sans-serif" font-size="8.4" font-weight="700" letter-spacing="2.5" fill="#e8cd8a">
           <textPath href="#sealTextPath" startOffset="2%"> • DOCUMENTO ASSINADO •  •</textPath>
@@ -481,53 +526,68 @@ Documento gerado em ${d.data}.`;
       </svg>
     </div>
   </section>
- 
+
   <!-- ---------- Dados da assinatura ---------- -->
   <section class="card signature-data-card" id="signatureDataCard">
-    <span class="card-eyebrow">Comprovante</span>
-    <h2>Dados da Assinatura</h2>
+    <span class="card-eyebrow" data-edit="eyebrow3">Comprovante</span>
+    <h2 data-edit="title3">Dados da Assinatura</h2>
     <div class="info-grid">
-      <div class="info-item"><span class="info-label">Nome</span><span class="info-value" id="sigNome"></span></div>
-      <div class="info-item"><span class="info-label">CPF</span><span class="info-value" id="sigCpf"></span></div>
-      <div class="info-item"><span class="info-label">Número do contrato</span><span class="info-value" id="sigContrato"></span></div>
-      <div class="info-item"><span class="info-label">Data da assinatura</span><span class="info-value" id="sigData"></span></div>
-      <div class="info-item"><span class="info-label">Horário da assinatura</span><span class="info-value" id="sigHora"></span></div>
-      <div class="info-item"><span class="info-label">Status</span><span class="status-pill">ASSINADO</span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigNome">Nome</span><span class="info-value" id="sigNome"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigCpf">CPF</span><span class="info-value" id="sigCpf"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigContrato">Número do contrato</span><span class="info-value" id="sigContrato"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigData">Data da assinatura</span><span class="info-value" id="sigData"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigHora">Horário da assinatura</span><span class="info-value" id="sigHora"></span></div>
+      <div class="info-item"><span class="info-label" data-edit="lblSigStatus">Status</span><span class="status-pill">ASSINADO</span></div>
     </div>
   </section>
- 
+
 </main>
- 
+
 <footer>
   <div class="wrap">
-    <p class="notice">Esta assinatura representa a confirmação eletrônica das informações apresentadas.</p>
-    <p class="brand-line"></p>
+    <p class="notice" data-edit="footerNotice">Esta assinatura representa a confirmação eletrônica das informações apresentadas.</p>
+    <p class="brand-line" data-edit="footerBrandLine"></p>
   </div>
 </footer>
- 
+
 <!-- ---------- Modal de confirmação ---------- -->
 <div class="modal-overlay is-hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-card">
-    <h3 id="modalTitle">Confirmar Assinatura</h3>
-    <p>Você confirma que deseja assinar este documento?</p>
+    <h3 id="modalTitle" data-edit="modalTitle">Confirmar Assinatura</h3>
+    <p data-edit="modalText">Você confirma que deseja assinar este documento?</p>
     <div class="modal-actions">
-      <button class="btn btn-outline" id="cancelBtn">CANCELAR</button>
-      <button class="btn btn-gold" id="confirmBtn">CONFIRMAR ASSINATURA</button>
+      <button class="btn btn-outline" id="cancelBtn"><span data-edit="cancelBtnLabel">CANCELAR</span></button>
+      <button class="btn btn-gold" id="confirmBtn"><span data-edit="confirmBtnLabel">CONFIRMAR ASSINATURA</span></button>
     </div>
   </div>
 </div>
- 
+
+<!-- ---------- Modo de edição ---------- -->
+<button id="editFab" class="edit-fab" title="Editar textos e informações da página">✏️ Editar página</button>
+
+<div class="edit-toolbar" id="editToolbar">
+  <div class="edit-toolbar-info">Modo de edição ativo — clique em qualquer texto para alterá-lo. As alterações ficam salvas neste navegador.</div>
+  <div class="edit-toolbar-actions">
+    <label class="edit-title-field">Título da aba
+      <input type="text" id="pageTitleInput">
+    </label>
+    <button class="btn btn-outline btn-sm" id="resetEditsBtn">Restaurar padrão</button>
+    <button class="btn btn-gold btn-sm" id="exitEditBtn">Concluir edição</button>
+  </div>
+</div>
+
 <script>
   // ============================================================
   // FINANTO — Lógica da aplicação
   // ============================================================
   const STORAGE_KEY = 'finanto_assinatura';
- 
+  const EDIT_STORAGE_KEY = 'finanto_edicoes_v1';
+
   const els = {
     statusBadge: document.getElementById('statusBadge'),
-    statusDot: document.getElementById('statusDot'),
     statusText: document.getElementById('statusText'),
     documentText: document.getElementById('documentText'),
+    agreeWrap: document.getElementById('agreeWrap'),
     agreeCheckbox: document.getElementById('agreeCheckbox'),
     signButton: document.getElementById('signButton'),
     signHint: document.getElementById('signHint'),
@@ -537,41 +597,71 @@ Documento gerado em ${d.data}.`;
     modalOverlay: document.getElementById('modalOverlay'),
     cancelBtn: document.getElementById('cancelBtn'),
     confirmBtn: document.getElementById('confirmBtn'),
+    editFab: document.getElementById('editFab'),
+    editToolbar: document.getElementById('editToolbar'),
+    pageTitleInput: document.getElementById('pageTitleInput'),
+    resetEditsBtn: document.getElementById('resetEditsBtn'),
+    exitEditBtn: document.getElementById('exitEditBtn'),
   };
- 
-  // ---------- Preenche a página com DADOS_CLIENTE ----------
+
+  let editModeActive = false;
+  let edits = {};
+  try{
+    const raw = localStorage.getItem(EDIT_STORAGE_KEY);
+    if(raw) edits = JSON.parse(raw) || {};
+  }catch(e){ edits = {}; }
+
+  // ---------- Preenche a página com os valores padrão de DADOS_CLIENTE ----------
   function preencherDadosCliente(){
     document.getElementById('infoNome').textContent = DADOS_CLIENTE.nome;
     document.getElementById('infoCpf').textContent = DADOS_CLIENTE.cpf;
     document.getElementById('infoContrato').textContent = DADOS_CLIENTE.contrato;
     document.getElementById('infoTelefone').textContent = DADOS_CLIENTE.telefone;
-    document.getElementById('infoEmail').textContent = DADOS_CLIENTE.email;
+    document.getElementById('infoEmail').textContent = DADOS_CLIENTE.email || '—';
     document.getElementById('infoBanco').textContent = DADOS_CLIENTE.banco;
     document.getElementById('infoTipoOperacao').textContent = DADOS_CLIENTE.tipoOperacao;
-    document.getElementById('infoValorLiberado').textContent = DADOS_CLIENTE.valorLiberado;
+    document.getElementById('infoValorOriginal').textContent = DADOS_CLIENTE.valorOriginal;
     document.getElementById('infoParcelas').textContent = DADOS_CLIENTE.parcelas;
     document.getElementById('infoValorParcela').textContent = DADOS_CLIENTE.valorParcela;
     document.getElementById('infoData').textContent = DADOS_CLIENTE.data;
     els.documentText.textContent = gerarTextoDocumento(DADOS_CLIENTE);
   }
- 
+
+  // ---------- Sobrepõe as edições manuais salvas (têm prioridade sobre o padrão) ----------
+  function aplicarEdicoesSalvas(){
+    document.querySelectorAll('[data-edit]').forEach(el => {
+      const key = el.getAttribute('data-edit');
+      if(Object.prototype.hasOwnProperty.call(edits, key)){
+        el.innerText = edits[key];
+      }
+    });
+    const tituloSalvo = edits.__pageTitle || document.getElementById('pageTitleTag').textContent;
+    document.title = tituloSalvo;
+    els.pageTitleInput.value = tituloSalvo;
+  }
+
+  function persistirEdicoes(){
+    try{ localStorage.setItem(EDIT_STORAGE_KEY, JSON.stringify(edits)); }
+    catch(e){ console.warn('Não foi possível salvar as edições:', e); }
+  }
+
   // ---------- Aplica o estado "assinado" na tela ----------
   function aplicarEstadoAssinado(dadosAssinatura){
     els.signButton.textContent = '✓ DOCUMENTO ASSINADO';
     els.signButton.disabled = true;
     els.signButton.classList.add('is-signed');
     els.signButton.title = '';
- 
+
     els.signHint.classList.add('is-hidden');
     els.agreeCheckbox.checked = true;
     els.agreeCheckbox.disabled = true;
- 
+
     els.statusText.textContent = 'STATUS: ASSINADO';
     els.statusBadge.classList.add('is-signed');
- 
+
     els.successMessage.classList.add('is-visible');
     els.sealWrap.classList.add('is-visible');
- 
+
     document.getElementById('sigNome').textContent = dadosAssinatura.nome;
     document.getElementById('sigCpf').textContent = dadosAssinatura.cpf;
     document.getElementById('sigContrato').textContent = dadosAssinatura.contrato;
@@ -579,7 +669,7 @@ Documento gerado em ${d.data}.`;
     document.getElementById('sigHora').textContent = dadosAssinatura.hora;
     els.signatureDataCard.classList.add('is-visible');
   }
- 
+
   // ---------- Verifica se já existe assinatura salva ----------
   function verificarAssinaturaExistente(){
     const salvo = localStorage.getItem(STORAGE_KEY);
@@ -593,9 +683,9 @@ Documento gerado em ${d.data}.`;
       console.warn('Não foi possível ler a assinatura salva:', e);
     }
   }
- 
-  // ---------- Habilita o botão de assinatura conforme a declaração ----------
-  els.agreeCheckbox.addEventListener('change', () => {
+
+  // ---------- Checkbox de concordância (clique em qualquer parte da linha) ----------
+  function atualizarBotaoAssinar(){
     const jaAssinado = els.signButton.classList.contains('is-signed');
     els.signButton.disabled = !els.agreeCheckbox.checked || jaAssinado;
     if(els.agreeCheckbox.checked){
@@ -603,17 +693,21 @@ Documento gerado em ${d.data}.`;
     }else if(!jaAssinado){
       els.signHint.classList.remove('is-hidden');
     }
+  }
+  els.agreeCheckbox.addEventListener('change', atualizarBotaoAssinar);
+  els.agreeWrap.addEventListener('click', (e) => {
+    if(editModeActive) return; // não alterna o checkbox enquanto o texto está sendo editado
+    if(e.target === els.agreeCheckbox) return;
+    els.agreeCheckbox.checked = !els.agreeCheckbox.checked;
+    els.agreeCheckbox.dispatchEvent(new Event('change'));
   });
- 
-  // ---------- Abre o modal de confirmação ----------
+
+  // ---------- Modal de confirmação ---------
   els.signButton.addEventListener('click', () => {
     if(els.signButton.disabled || els.signButton.classList.contains('is-signed')) return;
     els.modalOverlay.classList.remove('is-hidden');
   });
- 
-  function fecharModal(){
-    els.modalOverlay.classList.add('is-hidden');
-  }
+  function fecharModal(){ els.modalOverlay.classList.add('is-hidden'); }
   els.cancelBtn.addEventListener('click', fecharModal);
   els.modalOverlay.addEventListener('click', (e) => {
     if(e.target === els.modalOverlay) fecharModal();
@@ -621,14 +715,12 @@ Documento gerado em ${d.data}.`;
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && !els.modalOverlay.classList.contains('is-hidden')) fecharModal();
   });
- 
-  // ---------- Confirma a assinatura ----------
   els.confirmBtn.addEventListener('click', () => {
     const agora = new Date();
     const dadosAssinatura = {
-      nome: DADOS_CLIENTE.nome,
-      cpf: DADOS_CLIENTE.cpf,
-      contrato: DADOS_CLIENTE.contrato,
+      nome: document.getElementById('infoNome').innerText,
+      cpf: document.getElementById('infoCpf').innerText,
+      contrato: document.getElementById('infoContrato').innerText,
       data: agora.toLocaleDateString('pt-BR'),
       hora: agora.toLocaleTimeString('pt-BR'),
       status: 'ASSINADO'
@@ -637,14 +729,48 @@ Documento gerado em ${d.data}.`;
     fecharModal();
     aplicarEstadoAssinado(dadosAssinatura);
   });
- 
+
+  // ---------- Modo de edição ----------
+  function setEditMode(on){
+    editModeActive = on;
+    document.body.classList.toggle('is-editing', on);
+    document.querySelectorAll('[data-edit]').forEach(el => { el.contentEditable = on ? 'true' : 'false'; });
+    els.editFab.classList.toggle('is-hidden', on);
+    els.editToolbar.classList.toggle('is-visible', on);
+  }
+  els.editFab.addEventListener('click', () => setEditMode(true));
+  els.exitEditBtn.addEventListener('click', () => setEditMode(false));
+
+  document.addEventListener('input', (e) => {
+    const el = e.target.closest('[data-edit]');
+    if(!el || !editModeActive) return;
+    edits[el.getAttribute('data-edit')] = el.innerText;
+    persistirEdicoes();
+  });
+
+  els.pageTitleInput.addEventListener('input', () => {
+    edits.__pageTitle = els.pageTitleInput.value;
+    document.title = els.pageTitleInput.value;
+    persistirEdicoes();
+  });
+
+  els.resetEditsBtn.addEventListener('click', () => {
+    if(confirm('Isso vai apagar suas edições de texto e voltar aos valores padrão do arquivo (a assinatura já feita não é afetada). Deseja continuar?')){
+      localStorage.removeItem(EDIT_STORAGE_KEY);
+      location.reload();
+    }
+  });
+
   // ---------- Inicialização ----------
   preencherDadosCliente();
+  aplicarEdicoesSalvas();
   verificarAssinaturaExistente();
- 
-  // Para testar novamente do zero, execute no console do navegador:
+
+  // Para testar a assinatura novamente do zero, execute no console:
   // localStorage.removeItem('finanto_assinatura'); location.reload();
+  // Para apagar todas as edições de texto, execute no console:
+  // localStorage.removeItem('finanto_edicoes_v1'); location.reload();
 </script>
- 
+
 </body>
 </html>
