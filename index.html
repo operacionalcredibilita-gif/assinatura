@@ -264,6 +264,15 @@
   body.is-editing [data-edit]:focus{ outline:2px solid var(--gold); background:rgba(198,161,91,0.12); }
   body.is-editing [data-edit]:empty::before{ content:'Clique para editar'; opacity:.4; }
 
+  .doc-regen-btn{ display:none; }
+  body.is-editing .doc-regen-btn{
+    display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+    background:transparent; border:1px dashed var(--hairline-strong); color:var(--muted);
+    border-radius:20px; padding:8px 14px; font-size:11.5px; cursor:pointer; font-family:'Inter',sans-serif;
+    transition:color .2s var(--ease), border-color .2s var(--ease);
+  }
+  body.is-editing .doc-regen-btn:hover{ color:var(--gold-bright); border-color:var(--gold); }
+
   @media (max-width:600px){
     .wrap{ padding:0 18px; }
     header.site-header{ padding:20px 0; }
@@ -364,6 +373,7 @@ Documento gerado em ${d.data}.`;
     <span class="card-eyebrow" data-edit="eyebrow2">Contrato</span>
     <h2 data-edit="title2">Documento</h2>
     <div class="document-text" id="documentText" data-edit="documentText"></div>
+    <button type="button" class="doc-regen-btn" id="regenDocBtn">↺ Recalcular texto automaticamente com os dados acima</button>
 
     <div class="agree-wrap" id="agreeWrap">
       <input type="checkbox" id="agreeCheckbox">
@@ -483,6 +493,22 @@ Documento gerado em ${d.data}.`;
     clientLinkOutput: document.getElementById('clientLinkOutput'),
     copyLinkBtn: document.getElementById('copyLinkBtn'),
     whatsappLinkBtn: document.getElementById('whatsappLinkBtn'),
+    regenDocBtn: document.getElementById('regenDocBtn'),
+  };
+
+  // Campos que alimentam o texto do contrato. Ao editar qualquer um
+  // deles, o texto é recalculado sozinho — a não ser que o texto
+  // tenha sido reescrito manualmente (aí ele some do link até
+  // clicar em "Recalcular automaticamente").
+  const CAMPOS_TEMPLATE = ['infoNome','infoCpf','infoContrato','infoTelefone','infoEmail','infoBanco','infoTipoOperacao','infoValorOriginal','infoParcelas','infoValorParcela','infoData'];
+
+  // Chaves curtas usadas só dentro do link do cliente, pra ele ficar
+  // menor. Por fora (no restante do código) tudo continua com o nome
+  // completo de sempre.
+  const MAPA_CHAVES_CURTAS = {
+    infoNome:'n', infoCpf:'cf', infoContrato:'ct', infoTelefone:'tl', infoEmail:'em',
+    infoBanco:'bc', infoTipoOperacao:'op', infoValorOriginal:'vo', infoParcelas:'pc',
+    infoValorParcela:'vp', infoData:'dt', documentText:'doc', __pageTitle:'tt'
   };
 
   let editModeActive = false;
@@ -498,6 +524,41 @@ Documento gerado em ${d.data}.`;
     return decodeURIComponent(Array.prototype.map.call(atob(base64), function(c){
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
+  }
+
+  function compactarChaves(objeto){
+    const saida = {};
+    Object.keys(objeto).forEach(chave => {
+      saida[MAPA_CHAVES_CURTAS[chave] || chave] = objeto[chave];
+    });
+    return saida;
+  }
+  function expandirChaves(objeto){
+    const inverso = {};
+    Object.keys(MAPA_CHAVES_CURTAS).forEach(k => { inverso[MAPA_CHAVES_CURTAS[k]] = k; });
+    const saida = {};
+    Object.keys(objeto).forEach(chave => {
+      saida[inverso[chave] || chave] = objeto[chave];
+    });
+    return saida;
+  }
+
+  // Reconstrói o texto do contrato a partir dos campos visíveis na tela
+  function regenerarTextoDocumento(){
+    const dadosAtuais = {
+      nome: document.getElementById('infoNome').innerText,
+      cpf: document.getElementById('infoCpf').innerText,
+      contrato: document.getElementById('infoContrato').innerText,
+      telefone: document.getElementById('infoTelefone').innerText,
+      email: document.getElementById('infoEmail').innerText === '—' ? '' : document.getElementById('infoEmail').innerText,
+      banco: document.getElementById('infoBanco').innerText,
+      tipoOperacao: document.getElementById('infoTipoOperacao').innerText,
+      valorOriginal: document.getElementById('infoValorOriginal').innerText,
+      parcelas: document.getElementById('infoParcelas').innerText,
+      valorParcela: document.getElementById('infoValorParcela').innerText,
+      data: document.getElementById('infoData').innerText,
+    };
+    els.documentText.innerText = gerarTextoDocumento(dadosAtuais);
   }
 
   function ehAdmin(){
@@ -534,7 +595,7 @@ Documento gerado em ${d.data}.`;
     const dadosDoLink = params.get('c');
     if(dadosDoLink){
       try{
-        const decodificado = JSON.parse(deBase64(dadosDoLink));
+        const decodificado = expandirChaves(JSON.parse(deBase64(dadosDoLink)));
         edits = Object.assign({}, edits, decodificado);
       }catch(e){ console.warn('Não foi possível ler os dados do link:', e); }
     }
@@ -653,8 +714,18 @@ Documento gerado em ${d.data}.`;
   document.addEventListener('input', (e) => {
     const el = e.target.closest('[data-edit]');
     if(!el || !editModeActive) return;
-    edits[el.getAttribute('data-edit')] = el.innerText;
+    const chave = el.getAttribute('data-edit');
+    edits[chave] = el.innerText;
     persistirEdicoes();
+    if(CAMPOS_TEMPLATE.includes(chave) && !Object.prototype.hasOwnProperty.call(edits, 'documentText')){
+      regenerarTextoDocumento();
+    }
+  });
+
+  els.regenDocBtn.addEventListener('click', () => {
+    delete edits.documentText;
+    persistirEdicoes();
+    regenerarTextoDocumento();
   });
 
   els.pageTitleInput.addEventListener('input', () => {
@@ -671,7 +742,7 @@ Documento gerado em ${d.data}.`;
   });
 
   els.generateLinkBtn.addEventListener('click', () => {
-    const codificado = paraBase64(JSON.stringify(edits));
+    const codificado = paraBase64(JSON.stringify(compactarChaves(edits)));
     const link = location.origin + location.pathname + '#c=' + codificado;
     els.clientLinkOutput.value = link;
     els.clientLinkRow.classList.remove('is-hidden');
@@ -700,6 +771,9 @@ Documento gerado em ${d.data}.`;
   preencherDadosCliente();
   carregarDados();
   aplicarEdicoes();
+  if(!Object.prototype.hasOwnProperty.call(edits, 'documentText')){
+    regenerarTextoDocumento();
+  }
   verificarAssinaturaExistente();
 
   if(ehAdmin()){
