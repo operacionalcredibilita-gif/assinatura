@@ -299,17 +299,9 @@
      ================================================================ -->
 <script>
   const DADOS_CLIENTE = {
-    nome:          "ADEMIR SIERRA REVELLES",
-    cpf:           "00524766851",
-    contrato:      "1962364",
-    telefone:      "17997272845",
-    email:         "",
-    banco:         "FINANTO",
-    tipoOperacao:  "Crédito Consignado - Portabilidade",
-    valorOriginal: "R$ 1.266,34",
-    parcelas:      "91x",
-    valorParcela:  "R$ 956,12",
-    data:          "25/09/2026"
+    nome: "", cpf: "", contrato: "", telefone: "", email: "", banco: "FINANTO",
+    tipoOperacao: "Crédito Consignado - Portabilidade", valorOriginal: "", parcelas: "",
+    valorParcela: "", data: ""
   };
 
   function gerarTextoDocumento(d){
@@ -447,6 +439,7 @@ Documento gerado em ${d.data}.`;
       </label>
       <button class="btn btn-outline btn-sm" id="resetEditsBtn">Restaurar padrão</button>
       <button class="btn btn-gold btn-sm" id="generateLinkBtn">Gerar link do cliente</button>
+      <button class="btn btn-outline btn-sm" id="saveClientBtn">Salvar alterações</button>
       <button class="btn btn-outline btn-sm" id="exitEditBtn">Concluir edição</button>
     </div>
   </div>
@@ -457,6 +450,11 @@ Documento gerado em ${d.data}.`;
   </div>
 </div>
 
+<!-- Firebase SDK compatível com página HTML estática -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 <script>
   // ============================================================
   // FINANTO — Lógica da aplicação
@@ -465,6 +463,26 @@ Documento gerado em ${d.data}.`;
   // Palavra-chave para acessar o modo de edição. Troque aqui quando
   // quiser (e use a mesma na sua URL: ?admin=SUA_PALAVRA).
   const CHAVE_ADMIN = 'credibilita-admin';
+
+  // Configuração do Firebase da Credibilita Assinaturas
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlaY9TLDpJBJpzTzfUhXll77eSPbNS508",
+    authDomain: "credibilita-assinaturas.firebaseapp.com",
+    databaseURL: "https://credibilita-assinaturas-default-rtdb.firebaseio.com",
+    projectId: "credibilita-assinaturas",
+    storageBucket: "credibilita-assinaturas.firebasestorage.app",
+    messagingSenderId: "1044493942864",
+    appId: "1:1044493942864:web:80d2f2004b665f63fbd155",
+    measurementId: "G-DBY4ZBD1YJ"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.database();
+  const ADMIN_UID = 'jlkA2WLmaEUIXhzmvkrPKaE24de2';
+  let clienteToken = null;
+  let dadosClienteFirebase = null;
+  let adminAutorizado = false;
+  let carregandoCliente = false;
 
   const STORAGE_KEY = 'finanto_assinatura';
   const EDIT_STORAGE_KEY = 'finanto_edicoes_v1';
@@ -488,6 +506,7 @@ Documento gerado em ${d.data}.`;
     pageTitleInput: document.getElementById('pageTitleInput'),
     resetEditsBtn: document.getElementById('resetEditsBtn'),
     generateLinkBtn: document.getElementById('generateLinkBtn'),
+    saveClientBtn: document.getElementById('saveClientBtn'),
     exitEditBtn: document.getElementById('exitEditBtn'),
     clientLinkRow: document.getElementById('clientLinkRow'),
     clientLinkOutput: document.getElementById('clientLinkOutput'),
@@ -564,6 +583,92 @@ Documento gerado em ${d.data}.`;
   function ehAdmin(){
     const params = new URLSearchParams(location.search);
     return params.get('admin') === CHAVE_ADMIN;
+  }
+
+  function tokenDaUrl(){
+    const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+    return hash.get('cliente');
+  }
+
+  function coletarEdicoesDaTela(){
+    const resultado = {};
+    document.querySelectorAll('[data-edit]').forEach(el => {
+      resultado[el.getAttribute('data-edit')] = el.innerText;
+    });
+    resultado.__pageTitle = els.pageTitleInput.value || document.title;
+    return resultado;
+  }
+
+  function aplicarDadosDoCliente(dados){
+    edits = dados && dados.edits ? dados.edits : {};
+    document.querySelectorAll('[data-edit]').forEach(el => {
+      const key = el.getAttribute('data-edit');
+      if(Object.prototype.hasOwnProperty.call(edits, key)) el.innerText = edits[key];
+    });
+    const titulo = edits.__pageTitle || 'CONTRATO PORTABILIDADE | Assinatura de Documento';
+    document.title = titulo;
+    els.pageTitleInput.value = titulo;
+    if(!Object.prototype.hasOwnProperty.call(edits, 'documentText')) regenerarTextoDocumento();
+    if(dados && dados.signature) aplicarEstadoAssinado(dados.signature);
+  }
+
+  async function carregarClienteFirebase(token){
+    if(!token){
+      document.querySelector('main').classList.add('hidden');
+      document.querySelector('.hero').classList.add('hidden');
+      document.querySelector('footer').classList.add('hidden');
+      alert('Link de cliente inválido ou incompleto. Solicite um novo link à Credibilita.');
+      return;
+    }
+    carregandoCliente = true;
+    try{
+      const snap = await db.ref('clients/' + token).once('value');
+      if(!snap.exists()) throw new Error('Contrato não encontrado. Solicite um novo link à Credibilita.');
+      dadosClienteFirebase = snap.val();
+      aplicarDadosDoCliente(dadosClienteFirebase);
+      document.querySelectorAll('[data-edit]').forEach(el => el.contentEditable = 'false');
+      if(dadosClienteFirebase.signature) aplicarEstadoAssinado(dadosClienteFirebase.signature);
+    }catch(err){
+      document.querySelector('main').classList.add('hidden');
+      alert(err.message || 'Não foi possível carregar o contrato.');
+    }finally{ carregandoCliente = false; }
+  }
+
+  async function iniciarAdmin(){
+    if(!ehAdmin()) return;
+    auth.onAuthStateChanged(async user => {
+      if(!user){
+        document.body.classList.remove('is-admin');
+        const email = prompt('E-mail administrativo da Credibilita:');
+        if(!email) return;
+        const senha = prompt('Senha do Firebase:');
+        if(!senha) return;
+        try{ await auth.signInWithEmailAndPassword(email.trim(), senha); }
+        catch(err){ alert('Não foi possível entrar: ' + (err.message || err)); }
+        return;
+      }
+      if(user.uid !== ADMIN_UID){
+        await auth.signOut();
+        alert('Esta conta não tem permissão de administradora.');
+        return;
+      }
+      adminAutorizado = true;
+      document.body.classList.add('is-admin');
+      const token = tokenDaUrl();
+      if(token){
+        clienteToken = token;
+        try{
+          const snap = await db.ref('clients/' + token).once('value');
+          if(!snap.exists()) throw new Error('Cliente não encontrado.');
+          dadosClienteFirebase = snap.val();
+          aplicarDadosDoCliente(dadosClienteFirebase);
+        }catch(err){ alert(err.message || 'Erro ao abrir cliente.'); }
+      }else{
+        preencherDadosCliente();
+        edits = {};
+        aplicarEdicoes();
+      }
+    });
   }
 
   // ---------- Preenche a página com os valores padrão de DADOS_CLIENTE ----------
@@ -685,7 +790,8 @@ Documento gerado em ${d.data}.`;
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && !els.modalOverlay.classList.contains('is-hidden')) fecharModal();
   });
-  els.confirmBtn.addEventListener('click', () => {
+  els.confirmBtn.addEventListener('click', async () => {
+    if(!clienteToken){ alert('Este link não identifica um contrato. Solicite um novo link à Credibilita.'); return; }
     const agora = new Date();
     const dadosAssinatura = {
       nome: document.getElementById('infoNome').innerText,
@@ -693,11 +799,14 @@ Documento gerado em ${d.data}.`;
       contrato: document.getElementById('infoContrato').innerText,
       data: agora.toLocaleDateString('pt-BR'),
       hora: agora.toLocaleTimeString('pt-BR'),
+      timestamp: agora.toISOString(),
       status: 'ASSINADO'
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosAssinatura));
-    fecharModal();
-    aplicarEstadoAssinado(dadosAssinatura);
+    try{
+      await db.ref('clients/' + clienteToken + '/signature').set(dadosAssinatura);
+      fecharModal();
+      aplicarEstadoAssinado(dadosAssinatura);
+    }catch(err){ alert('Não foi possível registrar a assinatura. Verifique a conexão e tente novamente.'); }
   });
 
   // ---------- Modo de edição (admin) ----------
@@ -741,11 +850,30 @@ Documento gerado em ${d.data}.`;
     }
   });
 
-  els.generateLinkBtn.addEventListener('click', () => {
-    const codificado = paraBase64(JSON.stringify(compactarChaves(edits)));
-    const link = location.origin + location.pathname + '#c=' + codificado;
-    els.clientLinkOutput.value = link;
-    els.clientLinkRow.classList.remove('is-hidden');
+  els.generateLinkBtn.addEventListener('click', async () => {
+    if(!adminAutorizado){ alert('Entre com a conta administrativa para continuar.'); return; }
+    const novosDados = coletarEdicoesDaTela();
+    const token = (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2))).replace(/-/g, '');
+    try{
+      await db.ref('clients/' + token).set({edits: novosDados, createdAt: new Date().toISOString(), signature: null});
+      clienteToken = token;
+      dadosClienteFirebase = {edits: novosDados, signature: null};
+      const link = location.origin + location.pathname + '#cliente=' + token;
+      els.clientLinkOutput.value = link;
+      els.clientLinkRow.classList.remove('is-hidden');
+      alert('Link individual criado e salvo no Firebase.');
+    }catch(err){ alert('Erro ao salvar no Firebase: ' + (err.message || err)); }
+  });
+
+  els.saveClientBtn.addEventListener('click', async () => {
+    if(!adminAutorizado){ alert('Entre com a conta administrativa para continuar.'); return; }
+    if(!clienteToken){ alert('Primeiro gere um link para criar o cadastro. Para editar um cliente existente, abra o painel com o token desse cliente.'); return; }
+    try{
+      const atuais = coletarEdicoesDaTela();
+      await db.ref('clients/' + clienteToken + '/edits').set(atuais);
+      dadosClienteFirebase = {...(dadosClienteFirebase || {}), edits: atuais};
+      alert('Alterações salvas. O cliente verá os dados atualizados ao abrir ou atualizar o link.');
+    }catch(err){ alert('Erro ao salvar alterações: ' + (err.message || err)); }
   });
 
   els.copyLinkBtn.addEventListener('click', () => {
@@ -768,16 +896,22 @@ Documento gerado em ${d.data}.`;
   });
 
   // ---------- Inicialização ----------
-  preencherDadosCliente();
-  carregarDados();
-  aplicarEdicoes();
-  if(!Object.prototype.hasOwnProperty.call(edits, 'documentText')){
-    regenerarTextoDocumento();
-  }
-  verificarAssinaturaExistente();
-
+  const tokenInicial = tokenDaUrl();
   if(ehAdmin()){
-    document.body.classList.add('is-admin');
+    document.querySelector('main').classList.remove('hidden');
+    preencherDadosCliente();
+    carregarDados();
+    aplicarEdicoes();
+    iniciarAdmin();
+  }else if(tokenInicial){
+    clienteToken = tokenInicial;
+    document.querySelector('main').classList.remove('hidden');
+    carregarClienteFirebase(tokenInicial);
+  }else{
+    document.querySelector('main').classList.add('hidden');
+    document.querySelector('.hero').classList.add('hidden');
+    document.querySelector('footer').classList.add('hidden');
+    alert('Acesse pelo link individual enviado pela Credibilita.');
   }
 
   // Para assinar de novo do zero (teste), execute no console:
